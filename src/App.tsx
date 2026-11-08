@@ -14,6 +14,55 @@ const IndustriesView = lazy(() => import('./components/pages/IndustriesView'));
 const AboutView = lazy(() => import('./components/pages/AboutView'));
 const Contact = lazy(() => import('./components/Contact'));
 
+const seoByPath: Record<string, { title: string; description: string; canonicalPath: string; robots?: string }> = {
+  home: {
+    title: 'Custom Software, AI & Cloud Engineering | Saini Collection',
+    description: 'Saini Collection builds custom web applications, AI-powered workflows, and cloud platforms for businesses, from product strategy and UX through deployment.',
+    canonicalPath: '/',
+  },
+  services: {
+    title: 'Software, AI & Cloud Engineering Services | Saini Collection',
+    description: 'Explore Saini Collection services in product engineering, web development, AI automation, cloud platforms, UX design, and security.',
+    canonicalPath: '/services',
+  },
+  portfolio: {
+    title: 'Software Projects & Case Studies | Saini Collection',
+    description: 'See selected software projects by Saini Collection, including business platforms, inventory systems, and cloud applications.',
+    canonicalPath: '/portfolio',
+  },
+  'ai-innovation': {
+    title: 'AI Engineering & Workflow Automation | Saini Collection',
+    description: 'Discover AI engineering at Saini Collection, including LLM integrations, intelligent workflows, and dynamic form systems.',
+    canonicalPath: '/ai-innovation',
+  },
+  industries: {
+    title: 'Industry Software Solutions | Saini Collection',
+    description: 'Explore software and AI solutions from Saini Collection for healthcare, financial services, retail, and other industries.',
+    canonicalPath: '/industries',
+  },
+  about: {
+    title: 'About Saini Collection | Software Engineering Team',
+    description: 'Learn about Saini Collection, our engineering approach, and how we work with businesses to design and deliver digital products.',
+    canonicalPath: '/about',
+  },
+  contact: {
+    title: 'Contact Saini Collection | Discuss Your Project',
+    description: 'Contact Saini Collection to discuss a software, AI, or cloud engineering project and its technical requirements.',
+    canonicalPath: '/contact',
+  },
+  'get-proposal': {
+    title: 'Contact Saini Collection | Discuss Your Project',
+    description: 'Contact Saini Collection to discuss a software, AI, or cloud engineering project and its technical requirements.',
+    canonicalPath: '/contact',
+  },
+  admin: {
+    title: 'Admin Portal | Saini Collection',
+    description: 'Saini Collection administration portal.',
+    canonicalPath: '/admin',
+    robots: 'noindex, nofollow',
+  },
+};
+
 // Loading Fallback Component
 function PageSkeleton() {
   return (
@@ -35,23 +84,25 @@ function AppContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     const path = location.pathname.replace(/^\//, '') || 'home';
-    const titleMap: Record<string, string> = {
-      home: 'Saini Collection | Modern Digital Engineering & AI Solutions',
-      services: 'Services & Capabilities | Saini Collection Engineering',
-      portfolio: 'Featured Work & Case Studies | Saini Collection Portfolio',
-      'ai-innovation': 'AI Engineering & Dynamic Form Engines | Saini Collection',
-      industries: 'Industries & Enterprise Solutions | Saini Collection',
-      about: 'About Us & Leadership | Saini Collection Digital Agency',
-      contact: 'Contact Us & RFP Submission | Saini Collection',
-      'get-proposal': 'Request Architecture Proposal | Saini Collection',
-      admin: 'Admin Portal & Content Management | Saini Collection'
+    const seo = seoByPath[path] ?? seoByPath.home;
+    const canonicalUrl = `https://sainicollection.com${seo.canonicalPath}`;
+
+    document.title = seo.title;
+    const updateMeta = (selector: string, content: string) => {
+      const element = document.querySelector<HTMLMetaElement>(selector);
+      if (element) element.content = content;
     };
 
-    if (titleMap[path]) {
-      document.title = titleMap[path];
-    } else {
-      document.title = 'Saini Collection | Modern Digital Engineering';
-    }
+    updateMeta('meta[name="description"]', seo.description);
+    updateMeta('meta[name="robots"]', seo.robots ?? 'index, follow');
+    updateMeta('meta[property="og:title"]', seo.title);
+    updateMeta('meta[property="og:description"]', seo.description);
+    updateMeta('meta[property="og:url"]', canonicalUrl);
+    updateMeta('meta[name="twitter:title"]', seo.title);
+    updateMeta('meta[name="twitter:description"]', seo.description);
+
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) canonical.href = canonicalUrl;
   }, [location.pathname]);
 
   // Helper to map route paths to navigation IDs
