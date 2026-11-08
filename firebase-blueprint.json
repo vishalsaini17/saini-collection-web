@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "projects": {
+      "title": "Projects",
+      "description": "Portfolio case studies and enterprise client projects",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "client": { "type": "string" },
+        "clientLogoText": { "type": "string" },
+        "category": { "type": "string" },
+        "industry": { "type": "string" },
+        "year": { "type": "string" },
+        "tagline": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" },
+        "techStack": { "type": "array", "items": { "type": "string" } },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "value": { "type": "string" }
+            }
+          }
+        },
+        "challenge": { "type": "string" },
+        "solution": { "type": "string" },
+        "keyFeatures": { "type": "array", "items": { "type": "string" } },
+        "liveUrl": { "type": "string" },
+        "isFeatured": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "client", "category"]
+    },
+    "companies": {
+      "title": "Partner Companies",
+      "description": "Collaborating corporate partners and enterprise clients",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "logoBadge": { "type": "string" },
+        "industry": { "type": "string" },
+        "location": { "type": "string" },
+        "collaborationType": { "type": "string" },
+        "duration": { "type": "string" },
+        "description": { "type": "string" },
+        "keyProjectsDelivered": { "type": "array", "items": { "type": "string" } },
+        "impactMetric": { "type": "string" },
+        "websiteDomain": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "industry"]
+    },
+    "inquiries": {
+      "title": "Client Inquiries",
+      "description": "RFP submissions and contact inquiries",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "company": { "type": "string" },
+        "projectType": { "type": "string" },
+        "budgetRange": { "type": "string" },
+        "timeline": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["fullName", "email"]
+    }
+  }
+}
